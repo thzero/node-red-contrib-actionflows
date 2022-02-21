@@ -87,9 +87,24 @@ module.exports = function(RED) {
       if (msg._af[config.id].index < msg._af[config.id].ins.length) {
         msg._af.stack.push(event);
         msg._af[config.id].index++;
-        var ain = msg._af[config.id].ins[msg._af[config.id].index - 1];
+        var ain = null;
+        if (msg.action_tag && msg.action_tag !== '') {
+          for(const ins of ain = msg._af[config.id].ins) {
+            if (ins.tag !== msg.action_tag)
+              continue;
+            ain = ins;
+            break;
+          }
+        }
+        else
+          ain = msg._af[config.id].ins[msg._af[config.id].index - 1];
+        if (!ain) {
+          node.error("`" + config.name + "` (" + config.id + ") -> no ain found.");
+        }
+        // var ain = msg._af[config.id].ins[msg._af[config.id].index - 1];
         if (config.seq) {
           node.warn("`" + config.name + "` (" + config.id + ") -> `" + ain.name + "` (" + ain.id + ")");
+          node.status({fill:"red",shape:"ring",text: "error" });
         }
         RED.events.emit("af:" + ain.id, msg);
       }else{

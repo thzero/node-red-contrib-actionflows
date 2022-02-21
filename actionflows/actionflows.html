@@ -124,7 +124,8 @@
       name: {value:"action in"},
       priority: {value:"50", required:true, validate:RED.validators.number()},
       links: {value: []},
-      scope: {value: "global"}
+      scope: {value: "global"},
+      tag: { value: '' }
 		},
 		inputs:0,
 		outputs:1,
@@ -242,6 +243,10 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
+        <label for="node-input-tag"><i class="fa fa-tag"></i> Tag</label>
+        <input type="text" id="node-input-tag" placeholder="Tag">
+    </div>
+    <div class="form-row">
       <label for="node-input-scope"><i class="fa fa-random"></i> <span>Scope</span></label>
       <select id="node-input-scope">
           <option value="global">global</option>
@@ -271,6 +276,10 @@
   <p>Name the node with a prefix that matches the name of an existing
   <code>action</code> node. Use a space, underscore, hyphen or period
   to separate the prefix from your segment&#39;s own unique name/description.
+  </p>
+  <h4>Tag</h4>
+  <p>Use the tag field for the node.  The node will only be executed if 
+tag values matches the value of an action_tag property on the message.
   </p>
   <h4>Scope</h4>
   <p>Scope provides functionality for flows that are more commonly found in OOP
